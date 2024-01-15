@@ -15,7 +15,9 @@ export const getPosts = createAsyncThunk(
         )
         return res;
     }
-)
+);
+
+
 export const PostSlice = createSlice({
     name: 'posts',
     initialState,
@@ -27,6 +29,8 @@ export const PostSlice = createSlice({
                 state.loading = true;
                 return state;
             })
+
+            // handle here the success scenario else resolve the promise object in the component itself.
             builder.addCase(getPosts.fulfilled, (state, action) => {
                 // console.log('thakur:', state);
                 state.allPosts = action.payload

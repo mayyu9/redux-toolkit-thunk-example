@@ -17,7 +17,23 @@ function PostsWithThunk() {
     const dispatch = useDispatch();
 
     useEffect(()=>{
+
+        // dispatch the action and handle data in store.
         dispatch(getPosts())
+
+        // dispatch the data, resolve the response component as well.
+        dispatch(getPosts()).then((res) => console.log('thakur: ', res.payload));
+
+        // unwrap
+        dispatch(getPosts())
+        .unwrap()
+    .then((originalPromiseResult) => {
+        console.log('thakur1: ', originalPromiseResult)
+    })
+    .catch((rejectedValueOrSerializedError) => {
+      // handle error here
+      console.log('thakur2: ', rejectedValueOrSerializedError)
+    })
     }, [dispatch])
 
     if(loading) return <>Loading......</>
