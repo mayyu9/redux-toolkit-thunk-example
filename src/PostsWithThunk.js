@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getPosts } from './features/Posts/slices/PostSlice';
+import { getPosts, addPosts } from './features/Posts/slices/PostSlice';
 
 function PostsWithThunk() {
     // const [allPosts, setAllPosts] = useState([]);
@@ -16,25 +16,37 @@ function PostsWithThunk() {
 
     const dispatch = useDispatch();
 
+    const post = {
+        "userId": 11123,
+        "id": 11123,
+        "title": "Test By Thakur",
+        "body": "Test By Thakur"
+    };
+
     useEffect(()=>{
 
         // dispatch the action and handle data in store.
         dispatch(getPosts())
 
-        // dispatch the data, resolve the response component as well.
-        dispatch(getPosts()).then((res) => console.log('thakur: ', res.payload));
+        // commented below logic but it is working fine
+    //     // dispatch the data, resolve the response component as well.
+    //     dispatch(getPosts()).then((res) => console.log('thakur: ', res.payload[0]));
 
-        // unwrap
-        dispatch(getPosts())
-        .unwrap()
-    .then((originalPromiseResult) => {
-        console.log('thakur1: ', originalPromiseResult)
-    })
-    .catch((rejectedValueOrSerializedError) => {
-      // handle error here
-      console.log('thakur2: ', rejectedValueOrSerializedError)
-    })
+    //     // unwrap
+    //     dispatch(getPosts())
+    //     .unwrap()
+    // .then((originalPromiseResult) => {
+    //     console.log('thakur1: ', originalPromiseResult)
+    // })
+    // .catch((rejectedValueOrSerializedError) => {
+    //   // handle error here
+    //   console.log('thakur2: ', rejectedValueOrSerializedError)
+    // })
     }, [dispatch])
+
+    const addPostHandler = () => {
+        dispatch(addPosts(post)).then(() => dispatch(getPosts()))
+    }
 
     if(loading) return <>Loading......</>
    
@@ -48,6 +60,7 @@ function PostsWithThunk() {
                 </ul>)
             })
         ): 'loading..'}
+        <button type='button' onClick={addPostHandler}>Add post</button>
         </>
     )
 };
